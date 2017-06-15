@@ -67,7 +67,9 @@ namespace ConsoleExcelReader
             //var smth = column1.Where(x=>x.)
             for (int i = 0; i < 250; i++)
             {
+                //можно сильно упростить
                 if (dT[i].Hour >= 8 && dT[i].Hour <= 10) Console.ForegroundColor = ConsoleColor.Red;
+                else if ((dT[i].Hour >= 0 && dT[i].Hour <= 5) | (dT[i].Hour >= 23 && dT[i].Hour <= 24)) Console.ForegroundColor = ConsoleColor.Cyan;
                 else Console.ForegroundColor = ConsoleColor.White;
                 Console.Write(dT[i]);
                 Console.WriteLine("         " +column3[i]+"    "+column4[i]);

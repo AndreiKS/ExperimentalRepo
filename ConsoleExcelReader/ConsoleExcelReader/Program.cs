@@ -33,7 +33,13 @@ namespace ConsoleExcelReader
 
                     column1.Add(values[0]);
                     column2.Add(values[1]);
-                    if (values.Length > 2)
+                    if (values.Length <= 2)
+                    {
+                        column3.Add("no value");
+                        column4.Add("no value");
+                    }
+
+                    else
                     {
                         column3.Add(values[2]);
                         column4.Add(values[3]);
@@ -41,26 +47,33 @@ namespace ConsoleExcelReader
                 }
             }
 
-            StringBuilder builder = new StringBuilder();
 
-            List<string> dataAndTime = new List<string>();
-
+            List<string> dataAndTimeString = new List<string>();
+            List<DateTime> dT = new List<DateTime>();
+            DateTime dt;
             for (int i = 0; i < column2.Count; i++)
             {
-                dataAndTime.Add(column1[i] + " " + column2[i]);
+                StringBuilder builder = new StringBuilder(column1[i], 25);
+                builder.Append(" ");
+                builder.Append(column2[i]);
+                dataAndTimeString.Add(builder.ToString());
+                DateTime.TryParse(dataAndTimeString[i], out dt);
+                dT.Add(dt);
             }
 
 
-
-            string a = column1[3] + " " + column2[3];
-            DateTime dt1 = DateTime.Parse(a);
-            DateTime dt2;
-            DateTime.TryParse(dataAndTime[2], out dt2);
+            // вынести в отдельный класс
 
             //var smth = column1.Where(x=>x.)
+            for (int i = 0; i < 250; i++)
+            {
+                if (dT[i].Hour >= 8 && dT[i].Hour <= 10) Console.ForegroundColor = ConsoleColor.Red;
+                else Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(dT[i]);
+                Console.WriteLine("         " +column3[i]+"    "+column4[i]);
 
-            Console.WriteLine(dt1);
-            Console.WriteLine(dt2);
+            }
+
 
             Console.ReadKey();
 

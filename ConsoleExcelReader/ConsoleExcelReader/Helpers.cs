@@ -12,29 +12,44 @@ namespace ConsoleExcelReader
         public static void FileReader(string filename, ref List<string> column1, ref List<string> column2,
             ref List<string> column3, ref List<string> column4)
         {
-            using (var fs = File.OpenRead(filename))
-            using (var reader = new StreamReader(fs))
+
+            try
             {
-                char[] split = new char[] { ';' };
-                while (!reader.EndOfStream)
+
+                // выяснить корректность и варианты подобного использования using для нескольких 
+                // объектов
+                using (var fs = File.OpenRead(filename))
+                using (var reader = new StreamReader(fs))
                 {
-                    var line = reader.ReadLine();
-                    var values = line.Split(split);
-
-                    column1.Add(values[0]);
-                    column2.Add(values[1]);
-                    if (values.Length <= 2)
+                    char[] split = new char[] { ';' };
+                    while (!reader.EndOfStream)
                     {
-                        column3.Add("no value");
-                        column4.Add("no value");
-                    }
+                        var line = reader.ReadLine();
+                        var values = line.Split(split);
 
-                    else
-                    {
-                        column3.Add(values[2]);
-                        column4.Add(values[3]);
+                        column1.Add(values[0]);
+                        column2.Add(values[1]);
+                        if (values.Length <= 2)
+                        {
+                            column3.Add("no value");
+                            column4.Add("no value");
+                        }
+
+                        else
+                        {
+                            column3.Add(values[2]);
+                            column4.Add(values[3]);
+                        }
                     }
                 }
+
+            }
+
+
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine($"File {filename} not found. Press any key");
+                Console.ReadKey();
             }
         }
 
@@ -44,7 +59,11 @@ namespace ConsoleExcelReader
 
         }
 
+        public static void SelectDayZone()
+        {
 
+
+        }
 
 
 
@@ -55,7 +74,7 @@ namespace ConsoleExcelReader
 
             for (int i = 0; i < column2.Count; i++)
             {
-                StringBuilder builder = new StringBuilder(column1[i], 25);
+                StringBuilder builder = new StringBuilder(column1[i], 20);
                 builder.Append(" ");
                 builder.Append(column2[i]);
                 dataAndTimeString.Add(builder.ToString());
